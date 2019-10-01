@@ -1,6 +1,7 @@
 # Design Hacktober 2019
 Repository to share your design ideas built using modern technologies.
 
+Checkout our hacktober page : http://hacktober.thepremier.tech/
 
 ## What technologies can you use to contribute?
 We prefer you to use React, but you can use any technologies/ stack.
