@@ -18,7 +18,7 @@ We are updating the issues which includes various design categories.
 You can suggest the issues by mailing to premier3ideas@gmail.com
 
 ## How to contribute?
-When contributing please dont't change any of the other files.
+When contributing please don't change any of the other files.
 
 ### Let's get started!
 - Fork this Repository(Button up top)
