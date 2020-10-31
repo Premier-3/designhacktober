@@ -1,0 +1,52 @@
+kind: pipeline
+type: docker
+name: default
+
+steps:
+  - name: build
+    image: golang:1.13
+    commands:
+      - "go build -o ./myapp"
+  - name: trigger jenkins job
+    image: appleboy/drone-jenkins
+    settings:
+      url: http://34.66.214.246:8080
+      user: admin
+      token:
+        from_secret: jenkins_token
+      job: CoberturaIntegration
+  - name: publish
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+      repo: patelathreya/myrepo
+      auto_tag: true
+      auto_tag_suffix: drone-build
+  - name: notify-result
+    image: plugins/slack
+    settings:
+      webhook:
+        from_secret: slack_webhook
+      channel: #no1
+      link_names: true
+      template: >
+        {{#success build.status}}
+          Build {{build.number}} succeeded and deployed to Production! :)
+          Event: {{build.event}}
+          Branch: {{build.branch}}
+          Tag: {{build.tag}}
+          Git SHA: {{build.commit}}
+          Link: {{build.link}}
+        {{else}}
+          Build {{build.number}} failed and not deployed to Production :(
+          Event: {{build.event}}
+          Branch: {{build.branch}}
+          Tag: {{build.tag}}
+          Git SHA: {{build.commit}}
+          Link: {{build.link}}
+        {{/success}}
+    when:
+      status: [success, failure]
